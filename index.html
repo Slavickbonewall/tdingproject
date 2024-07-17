@@ -6,14 +6,11 @@
     <title>Hola Mundo con PHP</title>
 </head>
 <body>
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        echo '<h1>Hola Mundo</h1>';
-    }
-    ?>
-
-    <form method="post">
-        <button type="submit">Mostrar Mensaje</button>
-    </form>
+    <button type="button" onclick="hola()">Mostrar Mensaje</button>
+    <script>
+        function hola(){
+            alert("hola perro");
+        }
+    </script>    
 </body>
 </html>
