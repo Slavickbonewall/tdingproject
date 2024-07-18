@@ -1,16 +1,134 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Mundo con PHP</title>
-</head>
-<body>
-    <button type="button" onclick="hola()">Mostrar Mensaje</button>
-    <script>
-        function hola(){
-            alert("hola perro");
+    <title>Document</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
         }
-    </script>    
+
+        canvas {
+            border: 1px solid #fff;
+        }
+
+        button{
+            background-color: green;
+            border-style: none;
+            border-radius: 5px;
+            margin: 3px;
+        }
+
+        button:hover{
+            background-color: rgb(10, 194, 10);
+            border-style: none;
+            border-radius: 5px;
+            margin: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="cv" style="width: 600px; height: 300px; background-color: green;"></canvas>
+    <script>
+        const cv = document.getElementById('cv');
+        const ctx = cv.getContext('2d');
+
+        let player1 = { x: 10, y: 45, height: 60, width: 6, dy: 0 };
+        let player2 = { x: cv.width - 16, y: 45, width: 6, height: 60, dy: 0 };
+        let ball = { x: cv.width / 2 - 5, y: cv.height / 2 - 5, radius: 3, dx: 2 , dy: 2};
+
+        function drawP(paddle) {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+        }
+
+        function drawB() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2); // Dibujar un círculoctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function mainloop() {
+            player1.y += player1.dy;
+            player2.y += player2.dy;
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            if (player1.y <= 0) {
+                player1.y = 2;
+            }
+            else if (player1.y >= 88) {
+                player1.y = 88;
+            }
+
+            if (player2.y <= 0) {
+                player2.y = 2;
+            }
+            else if (player2.y >= 88) {
+                player2.y = 88;
+            }
+
+            if (ball.x - ball.radius > player2.x - player2.width
+                && ball.y > player2.y && ball.y < player2.y + player2.height||
+                ball.x - ball.radius < player1.x + player1.width
+                && ball.y > player1.y && ball.y < player1.y + player1.height) {
+                ball.dx = -ball.dx
+            }
+            if(ball.y >= cv.height){
+                ball.dy = -ball.dy;
+            }
+            else if(ball.y <= cv.height-150){
+                ball.dy = -ball.dy;
+            }
+
+            ctx.clearRect(0, 0, cv.width, cv.height);
+            drawP(player1);
+            drawP(player2);
+            drawB();
+
+            requestAnimationFrame(mainloop);
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'w') {
+                player1.dy = -4;
+            }
+            else if (event.key === 's') {
+                player1.dy = 4;
+            }
+
+            if (event.key === 'ArrowUp') {
+                player2.dy = -4;
+            }
+            else if (event.key === 'ArrowDown') {
+                player2.dy = 4;
+            }
+        });
+
+        document.addEventListener('keyup', function (event) { // Evento al soltar una tecla
+            if (event.key === 'w' || event.key === 's') {
+                player1.dy = 0;
+            }
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                player2.dy = 0;
+            }
+        });
+
+        mainloop();
+    </script>
 </body>
+
 </html>
