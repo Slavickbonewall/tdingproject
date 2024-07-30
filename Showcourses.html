@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Documentos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="toolbar">
+        <label for="font-size">Tamaño de fuente:</label>
+        <select id="font-size">
+            <option value="12px">12px</option>
+            <option value="16px">16px</option>
+            <option value="20px">20px</option>
+        </select>
+        
+        <label for="font-color">Color de fuente:</label>
+        <input type="color" id="font-color">
+        
+        <button id="insert-image">Insertar Imagen</button>
+        <input type="file" id="image-upload" accept="image/*" style="display:none;">
+        
+        <button id="save-document">Guardar Documento</button>
+    </div>
+    
+    <div id="editor" contenteditable="true" class="editor">
+        <!-- Contenido editable aquí -->
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
